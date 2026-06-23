@@ -1,0 +1,18 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "module": "nodenext",
+    "target": "esnext",
+    "types": ["node"],
+    "moduleResolution": "nodenext",
+    "esModuleInterop": true,
+    "lib": ["ESNext"],
+    "noImplicitAny": true,
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "strict": true,
+    "skipLibCheck": true,
+  },
+  "include": ["src/**/*"]
+}
