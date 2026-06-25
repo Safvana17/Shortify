@@ -5,7 +5,7 @@
     "outDir": "dist",
     "module": "nodenext",
     "target": "esnext",
-    "types": ["node"],
+    "types": ["node", "express"],
     "moduleResolution": "nodenext",
     "esModuleInterop": true,
     "lib": ["ESNext"],

@@ -15,5 +15,5 @@ export const envSchema = z.object({
     ACCESS_TOKEN_TTL: z.coerce.number(),
     BCRYPT_SALT_ROUNDS: z.coerce.number().int().min(8).max(15),
     FRONTEND_URL:z.string().min(1),
-
+    REDIS_URL: z.string().min(1)
 })
