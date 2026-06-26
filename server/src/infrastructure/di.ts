@@ -7,6 +7,7 @@ import { OtpStoreService } from "./services/otpStore.service";
 import { MailService } from './services/mail.service';
 import { AuthController } from '../presentation/controllers/auth.controller';
 import { UserVerifyOtpUsecase } from '../application/usecases/auth/user.verifyOtp.usecase';
+import { UserResendOtpUsecase } from '../application/usecases/auth/user.resendOtp.usecase';
 
 //repository
 const iUserRepository = new UserRepository()
@@ -32,10 +33,17 @@ const iUserVerifyOtp = new UserVerifyOtpUsecase (
     iOtpService,
     iOtpStoreService
 )
+const iUserResendOtp = new UserResendOtpUsecase (
+    iUserRepository,
+    iMailService,
+    iOtpService,
+    iOtpStoreService
+)
 
 
 
 export const iAuthController = new AuthController (
     iUserRegisterUsecase,
-    iUserVerifyOtp
+    iUserVerifyOtp,
+    iUserResendOtp
 )

@@ -37,3 +37,11 @@ export const userVerifyOtpSchema = z.object({
       .regex(/^\d{6}$/, 'OTP must contain only numbers')
       .min(6, "OTP must be exactly 6 digit")  
 })
+
+export const userResendOtpSchema = z.object({
+   email: z
+      .string()
+      .trim()
+      .min(1, 'Email is required')
+      .email('Invalid email address'),
+})
