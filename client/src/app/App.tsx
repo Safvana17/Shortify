@@ -6,6 +6,7 @@ import Signup from '../presentation/pages/auth/Signup'
 import Login from '../presentation/pages/auth/Login'
 import VerifyOtp from '../presentation/pages/auth/VerifyOtp'
 import { Toaster } from 'react-hot-toast'
+import Dashboard from '../presentation/pages/user/Dashboard'
 
 const App: React.FC = () => {
   return (
@@ -16,6 +17,7 @@ const App: React.FC = () => {
           <Route path={ROUTES.PUBLIC.SIGNUP} element={<Signup />} />
           <Route path={ROUTES.PUBLIC.LOGIN} element={ <Login /> } />
           <Route path={ROUTES.PUBLIC.VERIFY_OTP} element={<VerifyOtp />} />
+          <Route path={ROUTES.USER.DASHBOARD} element={<Dashboard />} />
        </Routes>
     </BrowserRouter>
   )
