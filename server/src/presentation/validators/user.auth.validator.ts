@@ -24,3 +24,16 @@ export const userRegisterSchema = z.object({
     message: 'Password do not match',
     path: ['confirmPassword']
 })
+
+export const userVerifyOtpSchema = z.object({
+   email: z
+      .string()
+      .trim()
+      .min(1, 'Email is required')
+      .email('Invalid email address'),
+   otp: z
+      .string()
+      .trim()
+      .regex(/^\d{6}$/, 'OTP must contain only numbers')
+      .min(6, "OTP must be exactly 6 digit")  
+})
