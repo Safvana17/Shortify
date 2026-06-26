@@ -34,7 +34,7 @@ export const otpEmailTemplate = (otp: string) => `
                 ${otp}
               </div>
               <p style="color:#777; font-size:14px;">
-                This OTP is valid for <strong>5 minutes</strong>.
+                This OTP is valid for <strong>2 minutes</strong>.
               </p>
               <p style="color:#777; font-size:14px;">
                 If you did not request this verification, you can safely ignore this email.

@@ -2,10 +2,11 @@ import React, { useState, useEffect, useRef} from "react";
 import Logo from "../../components/Logo";
 import { ROUTES } from "../../../constants/routes";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import type { AppDispatch } from "../../../redux/store";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../../redux/store";
 import toast from "react-hot-toast";
-import { verifyOtp } from "../../../redux/slices/authSlice";
+import { resendOtp, verifyOtp } from "../../../redux/slices/authSlice";
+
 
 
 const VerifyOtp: React.FC =()=>{
@@ -14,6 +15,7 @@ const VerifyOtp: React.FC =()=>{
     const [otp, setOtp] = useState<string[]>(Array(6).fill(''))
     const dispatch = useDispatch<AppDispatch>()
     const inputRef = useRef<(HTMLInputElement | null)[]>([])
+    const { loading } = useSelector((state: RootState) => state.auth)
     const location = useLocation()
     const navigate = useNavigate()
     const email = location.state?.email
@@ -75,6 +77,16 @@ const VerifyOtp: React.FC =()=>{
         }
     }
 
+    const handleResendOtp = async() => {
+        try {
+            await dispatch(resendOtp(email)).unwrap()
+            toast.success('OTP Sent successfully, Please check your Email.')
+            setTime(120)
+        } catch (error) {
+            toast.error(typeof error === 'string' ? error : 'Failed to resend otp')
+        }
+    }
+
     const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
         const pasteData = e.clipboardData.getData('text').slice(0, 6)
         if(!/^\d+$/.test(pasteData)) return 
@@ -116,6 +128,7 @@ return (
                 Time remaining: <span className="text-indigo-600 font-semibold ml-2">{formatTime(time)}</span>
             </p>
             <button
+                onClick={handleResendOtp}
                 disabled={time!==0}
                 className={`cursor-pointer mt-5 w-full py-3 rounded-lg text-white ${time===0 ? "bg-gradient-to-r from-indigo-500 to-purple-600" : "bg-gray-400"}`}>
                 Resend OTP
@@ -124,7 +137,7 @@ return (
                 onClick={handleSubmit}
                 className="cursor-pointer mt-4 w-full py-3 rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 text-white"
             >
-                Verify
+                {loading ? 'Verifying...' : 'Verify OTP'}
             </button>
         </div>
         <p 

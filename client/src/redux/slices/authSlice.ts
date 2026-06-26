@@ -58,6 +58,25 @@ void,
     }
 })
 
+export const resendOtp = createAsyncThunk<
+void,
+{email: string},
+{rejectValue: string}
+>('user/resend-otp', async(email, {rejectWithValue}) => {
+    try {
+
+        const response = await api.post(API_ROUTES.AUTH.RESEND_OTP, {email})
+        if(!response.data.success){
+            return rejectWithValue("Invalid response")
+        }
+        return response.data.data
+
+    } catch (error) {
+        const err = error as AxiosError<{message: string}>
+        return rejectWithValue(typeof err === 'string' ? err : 'Failed to resend otp')
+    }
+})
+
 
 const authSlice = createSlice({
     name: 'AuthSlice',
@@ -84,6 +103,16 @@ const authSlice = createSlice({
           .addCase(verifyOtp.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload || 'Failed to verify otp'
+          })
+          .addCase(resendOtp.pending, (state) => {
+            state.loading = true
+          })
+          .addCase(resendOtp.fulfilled, (state) => {
+            state.loading = false
+          })
+          .addCase(resendOtp.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload || 'Failed to resend otp'
           })
     }
 })
