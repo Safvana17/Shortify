@@ -1,5 +1,6 @@
 import express from "express";
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import { connectDB } from "../infrastructure/config/mongo.config";
 import routes from './routes/index'
 import { env } from "../infrastructure/config/env.config";
@@ -20,6 +21,7 @@ app.use((req, res, next) => {
     next()
 })
 
+app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 

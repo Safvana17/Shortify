@@ -8,12 +8,14 @@ import { IUserVerifyOtpUsecase } from "../../application/interfaces/auth/IUser.v
 import { IUserResendOtpUsecase } from "../../application/interfaces/auth/IUser.resendOtp.usecase";
 import { IUserLoginUsecase } from "../../application/interfaces/auth/IUser.login.usecase";
 import { env } from "../../infrastructure/config/env.config";
+import { IUserRefreshTokenUsecase } from "../../application/interfaces/auth/IUser.refreshToken.usecase";
 export class AuthController {
     constructor (
         private _userRegisterUsecase: IUserRegisterUsecase,
         private _userVerifyOtpUsecase: IUserVerifyOtpUsecase,
         private _userResendOtpUsecase: IUserResendOtpUsecase,
         private _userLoginUsecase: IUserLoginUsecase,
+        private _userRefreshTokenUsecase: IUserRefreshTokenUsecase,
     ) {}
 
     register = asyncHandler( async (req: Request, res: Response) => {
@@ -42,5 +44,22 @@ export class AuthController {
         })
 
         return sendSuccess(res, statusCode.OK, authMessage.success.USER_LOGGED_IN_SUCCESSFULLY, { user, accessToken})
+    })
+
+    refreshToken = asyncHandler ( async (req: Request, res: Response) => {
+        const refreshToken = req.cookies.refreshToken
+        console.log('refresh token: ', refreshToken)
+
+        const data = await this._userRefreshTokenUsecase.execute({token: refreshToken})
+
+        res.cookie('refreshToken', data.refreshToken, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            maxAge: env.REFRESH_TOKEN_MAX_AGE,
+            path: '/'
+        })
+
+        return sendSuccess(res, statusCode.OK, '', {user: data.user, accessToken: data.accessToken})
     })
 }

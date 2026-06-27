@@ -35,7 +35,7 @@ RegisterUserPayload,
 
     } catch (error) {
         const err = error as AxiosError<{message: string}>
-        return rejectWithValue(typeof err === 'string' ? err : 'Failed to register user')
+        return rejectWithValue(err.response?.data.message || 'Failed to register user')
     }
 })
 
@@ -54,7 +54,7 @@ void,
 
     } catch (error) {
         const err = error as AxiosError<{message: string}>
-        return rejectWithValue(typeof err === 'string' ? err : 'Failed to verify otp')
+        return rejectWithValue(err.response?.data.message || 'Failed to verify otp')
     }
 })
 
@@ -73,7 +73,7 @@ void,
 
     } catch (error) {
         const err = error as AxiosError<{message: string}>
-        return rejectWithValue(typeof err === 'string' ? err : 'Failed to resend otp')
+        return rejectWithValue(err.response?.data.message || 'Failed to resend otp')
     }
 })
 
@@ -92,7 +92,21 @@ LoginUserResponse,
 
     } catch (error) {
         const err = error as AxiosError<{message: string}>
-        return rejectWithValue(typeof err === 'string' ? err : 'User login failed')
+        return rejectWithValue(err.response?.data.message || 'User login failed')
+    }
+})
+
+export const checkAuth = createAsyncThunk<
+{accessToken: string; user: User },
+void,
+{rejectValue: string}
+>('user/checkAuth', async(_NEVER, { rejectWithValue}) => {
+    try {
+        const response = await api.post(API_ROUTES.AUTH.REFRESH)
+        return response.data.data
+    } catch (error) {
+        const err = error as AxiosError<{message: string}>
+        return rejectWithValue(err.response?.data.message || 'User login failed')       
     }
 })
 
@@ -100,7 +114,11 @@ LoginUserResponse,
 const authSlice = createSlice({
     name: 'AuthSlice',
     initialState,
-    reducers: {},
+    reducers: {
+        setAccessToken: (state,action) =>{
+            state.accessToken = action.payload
+        }
+    },
     extraReducers: (builder) => {
         builder
           .addCase(registerUser.pending, (state) => {
@@ -146,7 +164,23 @@ const authSlice = createSlice({
             state.loading = false
             state.error = action.payload || 'User login failed'
           })
+          .addCase(checkAuth.pending, (state) => {
+            state.loading = true
+          })
+          .addCase(checkAuth.fulfilled, (state, action) => {
+            state.loading = false
+            state.user = action.payload.user
+            state.accessToken = action.payload.accessToken
+            state.isAuthenticated = true
+          })
+          .addCase(checkAuth.rejected, (state, action) => {
+            state.loading = false
+            state.user = null
+            state.isAuthenticated = false
+            state.error = action.payload || 'User login failed'
+          })
     }
 })
 
+export const { setAccessToken } = authSlice.actions
 export default authSlice.reducer

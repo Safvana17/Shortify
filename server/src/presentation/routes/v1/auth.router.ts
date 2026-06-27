@@ -11,7 +11,7 @@ router.post(ROUTES.AUTH.REGISTER, validate(userRegisterSchema, 'body'), iAuthCon
 router.post(ROUTES.AUTH.VERIFY_OTP, validate(userVerifyOtpSchema, 'body'), iAuthController.verifyOtp)
 router.post(ROUTES.AUTH.RESEND_OTP, validate(userResendOtpSchema, 'body'), iAuthController.resendOtp)
 router.post(ROUTES.AUTH.LOGIN, validate(userLoginSchema, 'body'), iAuthController.login)
-
+router.post(ROUTES.AUTH.REFRESH, iAuthController.refreshToken)
 
 
 export default router

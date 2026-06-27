@@ -15,5 +15,10 @@ export const authMessage = {
         REFRESH_TOKEN_SECRET_NOT_FOUND: 'Refresh token secret not found',
         INCORRECT_PASSWORD: 'Incorrect password',
         USER_NOT_VERIFIED: 'User not verified',
+        UNAUTHORIZED: 'Unauthorized',
+        ACCESS_TOKEN_EXPIRED: 'Access token expired',
+        INTERNAL_SERVER_ERROR: 'Internal server error',
+        REFRESH_TOKEN_NOT_FOUND: 'Refresh token not found',
+        INVALID_REFRESH_TOKEN: 'Invalid refresh token',
     }
 }

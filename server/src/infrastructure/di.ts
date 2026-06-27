@@ -10,6 +10,7 @@ import { UserVerifyOtpUsecase } from '../application/usecases/auth/user.verifyOt
 import { UserResendOtpUsecase } from '../application/usecases/auth/user.resendOtp.usecase';
 import { UserLoginUsecase } from '../application/usecases/auth/user.login.usecase';
 import { TokenService } from './services/token.service';
+import { UserRefreshTokenUsecase } from '../application/usecases/auth/user.refreshToken.usecase';
 
 //repository
 const iUserRepository = new UserRepository()
@@ -47,6 +48,11 @@ const iUserLogin = new UserLoginUsecase (
     iTokenService,
     iHashService
 )
+const iUserRefresh = new UserRefreshTokenUsecase (
+    iUserRepository,
+    iTokenService,
+    iHashService
+)
 
 
 
@@ -54,5 +60,6 @@ export const iAuthController = new AuthController (
     iUserRegisterUsecase,
     iUserVerifyOtp,
     iUserResendOtp,
-    iUserLogin
+    iUserLogin,
+    iUserRefresh
 )
