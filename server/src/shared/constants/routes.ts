@@ -4,7 +4,8 @@ export const ROUTES = {
         VERIFY_OTP: '/verify-otp',
         RESEND_OTP: '/resend-otp',
         LOGIN: '/login',
-        LOGOUT: '/logout'
+        LOGOUT: '/logout',
+        REFRESH: '/refresh'
     },
     LINK: {
         GET: '/'

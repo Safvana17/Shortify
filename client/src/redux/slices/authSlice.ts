@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { RegisterUserPayload, User } from "../../types/User"
+import type { LoginUserResponse, RegisterUserPayload, User } from "../../types/User"
 import type { AxiosError } from "axios";
 import api from "../../lib/axios";
 import { API_ROUTES } from "../../constants/api.routes";
@@ -77,6 +77,25 @@ void,
     }
 })
 
+export const login = createAsyncThunk<
+LoginUserResponse,
+{email: string, password: string},
+{rejectValue: string}
+>('user/login', async({email, password}, {rejectWithValue}) => {
+    try {
+
+        const response = await api.post(API_ROUTES.AUTH.LOGIN, {email, password})
+        if(!response.data.success){
+            return rejectWithValue("Invalid response")
+        }
+        return response.data.data
+
+    } catch (error) {
+        const err = error as AxiosError<{message: string}>
+        return rejectWithValue(typeof err === 'string' ? err : 'User login failed')
+    }
+})
+
 
 const authSlice = createSlice({
     name: 'AuthSlice',
@@ -113,6 +132,19 @@ const authSlice = createSlice({
           .addCase(resendOtp.rejected, (state, action) => {
             state.loading = false
             state.error = action.payload || 'Failed to resend otp'
+          })
+          .addCase(login.pending, (state) => {
+            state.loading = true
+          })
+          .addCase(login.fulfilled, (state, action) => {
+            state.loading = false
+            state.user = action.payload.user
+            state.accessToken = action.payload.accessToken
+            state.isAuthenticated = true
+          })
+          .addCase(login.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload || 'User login failed'
           })
     }
 })

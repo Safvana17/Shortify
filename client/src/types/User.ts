@@ -11,3 +11,8 @@ export interface RegisterUserPayload {
     password: string
     confirmPassword: string
 }
+
+export interface LoginUserResponse {
+    user: User,
+    accessToken: string
+}

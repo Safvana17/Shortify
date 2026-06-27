@@ -1,6 +1,7 @@
 export const authMessage = {
     success: {
         USER_REGISTERED_SUCCESSFULLY: 'User registered successfully',
+        USER_LOGGED_IN_SUCCESSFULLY: 'User logged in successfully',
         
     },
     error: {
@@ -10,5 +11,9 @@ export const authMessage = {
         ALREADY_VERIFIED: 'User elready verified',
         OTP_EXPIRED: 'Otp expired',
         INVALID_OTP: 'Ivalid OTP',
+        ACCESS_TOKEN_SECRET_NOT_FOUND: 'Access token secret not found',
+        REFRESH_TOKEN_SECRET_NOT_FOUND: 'Refresh token secret not found',
+        INCORRECT_PASSWORD: 'Incorrect password',
+        USER_NOT_VERIFIED: 'User not verified',
     }
 }

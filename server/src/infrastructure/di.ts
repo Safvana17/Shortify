@@ -8,6 +8,8 @@ import { MailService } from './services/mail.service';
 import { AuthController } from '../presentation/controllers/auth.controller';
 import { UserVerifyOtpUsecase } from '../application/usecases/auth/user.verifyOtp.usecase';
 import { UserResendOtpUsecase } from '../application/usecases/auth/user.resendOtp.usecase';
+import { UserLoginUsecase } from '../application/usecases/auth/user.login.usecase';
+import { TokenService } from './services/token.service';
 
 //repository
 const iUserRepository = new UserRepository()
@@ -18,6 +20,7 @@ const iHashService = new HashService()
 const iOtpService = new OtpService()
 const iOtpStoreService = new OtpStoreService(redisClient)
 const iMailService = new MailService()
+const iTokenService = new TokenService()
 
 
 //usecases
@@ -39,11 +42,17 @@ const iUserResendOtp = new UserResendOtpUsecase (
     iOtpService,
     iOtpStoreService
 )
+const iUserLogin = new UserLoginUsecase (
+    iUserRepository,
+    iTokenService,
+    iHashService
+)
 
 
 
 export const iAuthController = new AuthController (
     iUserRegisterUsecase,
     iUserVerifyOtp,
-    iUserResendOtp
+    iUserResendOtp,
+    iUserLogin
 )

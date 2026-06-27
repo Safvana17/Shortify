@@ -45,3 +45,16 @@ export const userResendOtpSchema = z.object({
       .min(1, 'Email is required')
       .email('Invalid email address'),
 })
+
+export const userLoginSchema = z.object({
+    email: z
+       .string()
+       .trim()
+       .min(1, 'Email is required')
+       .email('Invalid email address'),
+    password: z
+       .string()
+       .trim()
+       .min(8, 'Password must conatin atleast 6 characters')
+       .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@$%*&?])[a-zA-Z\d!@$%*&?]{8,}$/),
+})

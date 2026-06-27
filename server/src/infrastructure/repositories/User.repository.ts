@@ -15,6 +15,15 @@ export class UserRepository extends BaseRepository<UserEntity, IUser> implements
         return this.mapToEntity(document)
     }
 
+    async updateToken(id: string, token: string): Promise<void> {
+        await this._model.findByIdAndUpdate(
+            id,
+            { $push: {
+                refreshToken: token
+            }}
+        )
+    }
+
     protected mapToEntity(doc: IUser): UserEntity {
         return UserMapper.mapToEntity(doc)
     }
