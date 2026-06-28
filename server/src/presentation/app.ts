@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser'
 import { connectDB } from "../infrastructure/config/mongo.config";
 import routes from './routes/index'
 import { env } from "../infrastructure/config/env.config";
+import { errorHandler } from "./middlewares/errorHandler";
 
 
 
@@ -30,5 +31,7 @@ app.get('/test', (req, res) => {
 })
 
 app.use('/api', routes)
+
+app.use(errorHandler)
 
 export default app

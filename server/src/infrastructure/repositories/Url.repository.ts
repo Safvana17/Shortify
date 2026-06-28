@@ -4,7 +4,7 @@ import { IUrlRepository } from "../../domain/repositoryInterfaces/iUrl.repositor
 import { IUrl, urlModel } from "../models/Url";
 import { BaseRepository } from "./Base.repository";
 
-export class CounterRepository extends BaseRepository<UrlEntity, IUrl> implements IUrlRepository {
+export class UrlRepository extends BaseRepository<UrlEntity, IUrl> implements IUrlRepository {
     constructor(){
         super(urlModel)
     }

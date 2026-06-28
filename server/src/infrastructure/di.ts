@@ -11,9 +11,15 @@ import { UserResendOtpUsecase } from '../application/usecases/auth/user.resendOt
 import { UserLoginUsecase } from '../application/usecases/auth/user.login.usecase';
 import { TokenService } from './services/token.service';
 import { UserRefreshTokenUsecase } from '../application/usecases/auth/user.refreshToken.usecase';
+import { UrlRepository } from './repositories/Url.repository';
+import { CounterRepository } from './repositories/Counter.repository';
+import { UserShortUrlUsecase } from '../application/usecases/url/user.shortUrl.usecase';
+import { UrlController } from '../presentation/controllers/url.controller';
 
 //repository
 const iUserRepository = new UserRepository()
+const iUrlRepository = new UrlRepository()
+const iCounterRepository = new CounterRepository()
 
 
 //service
@@ -21,7 +27,7 @@ const iHashService = new HashService()
 const iOtpService = new OtpService()
 const iOtpStoreService = new OtpStoreService(redisClient)
 const iMailService = new MailService()
-const iTokenService = new TokenService()
+export const iTokenService = new TokenService()
 
 
 //usecases
@@ -55,11 +61,22 @@ const iUserRefresh = new UserRefreshTokenUsecase (
 )
 
 
+//url
+const iUserShortUrl = new UserShortUrlUsecase (
+    iUrlRepository,
+    iUserRepository,
+    iCounterRepository
+)
 
+
+//controller
 export const iAuthController = new AuthController (
     iUserRegisterUsecase,
     iUserVerifyOtp,
     iUserResendOtp,
     iUserLogin,
     iUserRefresh
+)
+export const iUrlController = new UrlController (
+    iUserShortUrl
 )

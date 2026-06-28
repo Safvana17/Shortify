@@ -7,7 +7,9 @@ export const ROUTES = {
         LOGOUT: '/logout',
         REFRESH: '/refresh'
     },
-    LINK: {
-        GET: '/'
+    USER: {
+        LINK: '/url/short',
+        GET_LINK: '/url/:shortCode',
+        GET_ALL: '/url'
     }
 }

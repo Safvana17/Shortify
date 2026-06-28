@@ -20,7 +20,7 @@ export class UrlMapper {
         return {
             userId: entity.userId ? new Types.ObjectId(entity.userId) : undefined,
             originalUrl: entity.originalUrl,
-            shortcode: entity.shortCode,
+            shortCode: entity.shortCode,
             clicks: entity.clicks
         }
     }
