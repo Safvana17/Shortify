@@ -1,28 +1,32 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import { useDispatch, useSelector } from "react-redux";
+import type { AppDispatch, RootState } from "../../../redux/store";
+import { shortUrl } from "../../../redux/slices/urlSlice";
 
 const CreateLink: React.FC = () => {
-  const [url, setUrl] = useState("");
-  const [shortUrl, setShortUrl] = useState("");
+  const [originalUrl, setoriginalUrl] = useState("");
+  const [shortendUrl, setShortendUrl] = useState("");
+  const dispatch = useDispatch<AppDispatch>()
+  const { loading, url } = useSelector((state: RootState) => state.url)
 
-  const handleShorten = () => {
-    if (!url) {
+  const handleShorten = async() => {
+    if (!originalUrl) {
       toast.error("Please enter a URL");
       return;
     }
 
-    // Temporary frontend generated link
-    // Replace this with API response later
-    const generated = `https://short.ly/${Math.random()
-      .toString(36)
-      .substring(7)}`;
-
-    setShortUrl(generated);
-    toast.success("Link shortened successfully");
+    try {
+      const result = await dispatch(shortUrl({url: originalUrl})).unwrap()
+      setShortendUrl(result);
+      toast.success("Link shortened successfully");
+    } catch (error) {
+      toast.error(typeof error === 'string' ? error : 'Failed to short url')
+    }
   };
 
   const copyLink = () => {
-    navigator.clipboard.writeText(shortUrl);
+    navigator.clipboard.writeText(shortendUrl);
     toast.success("Copied to clipboard");
   };
 
@@ -38,24 +42,24 @@ const CreateLink: React.FC = () => {
           <input
             type="url"
             placeholder="Paste your long URL here..."
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
+            value={originalUrl}
+            onChange={(e) => setoriginalUrl(e.target.value)}
             className=" w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:border-indigo-500"
           />
           <button
             onClick={handleShorten}
             className=" w-full py-3 rounded-lg text-white font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 ">
-            Shorten Link
+            { loading ? 'Shortening...' : 'Shorten Link' }
           </button>
         </div>
-        {shortUrl && (
+        {url && (
           <div className="mt-8 p-5 bg-gray-50 rounded-xl">
             <p className="text-gray-600 text-sm">
               Your shortened link
             </p>
             <div className="flex items-center gap-3 mt-3">
               <input
-                value={shortUrl}
+                value={url}
                 readOnly
                 className=" flex-1 border rounded-lg px-3 py-2 text-gray-700 bg-white "
               />

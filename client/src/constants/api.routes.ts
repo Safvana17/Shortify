@@ -6,5 +6,13 @@ export const API_ROUTES = {
         LOGIN: '/auth/login',
         LOGOUT: '/auth/logout',
         REFRESH: '/auth/refresh',
+    },
+    USER: {
+        LINK: {
+            SHORT: '/user/url/short',
+            GET_LINK: (shortCode: string) =>
+                `/user/url/${shortCode}`,
+            GET_ALL: '/user/url'
+        }
     }
 }
