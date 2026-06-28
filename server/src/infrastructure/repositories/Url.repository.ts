@@ -15,6 +15,14 @@ export class UrlRepository extends BaseRepository<UrlEntity, IUrl> implements IU
         return this.mapToEntity(document)
     }
 
+    async updateClicks(id: string): Promise<UrlEntity | null> {
+        return await this._model.findByIdAndUpdate(
+            id,
+            {$inc: { clicks: 1 } },
+            { new: true }
+        )
+    }
+
     protected mapToEntity(doc: IUrl): UrlEntity {
         return UrlMapper.mapToEntity(doc)
     }

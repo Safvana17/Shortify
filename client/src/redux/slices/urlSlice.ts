@@ -45,6 +45,24 @@ string,
     }
 })
 
+// export const getLink = createAsyncThunk <
+// void,
+// {url: string},
+// {rejectValue: string}
+// >('url/short', async(url, { rejectWithValue}) => {
+//     try {
+//         const response = await api.post(API_ROUTES.USER.LINK.SHORT, url)
+//         if(!response.data.success){
+//             return rejectWithValue("Invalid response")
+//         }
+
+//         return response.data.data
+//     } catch (error) {
+//         const err = error as AxiosError<{message: string}>
+//         return rejectWithValue(err.response?.data.message || 'Failed to shorten url')
+//     }
+// })
+
 const urlSlice = createSlice ({
     name: 'UrlSlice',
     initialState,

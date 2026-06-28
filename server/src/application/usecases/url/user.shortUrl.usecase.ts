@@ -35,7 +35,7 @@ export class UserShortUrlUsecase implements IUserShortUrlUsecase {
         console.log('from usecase ', newUrl)
         await this._urlRepository.create(newUrl)
 
-        const shortUrl = `${env.FRONTEND_URL}/${shortCode}`
+        const shortUrl = `${env.BACKEND_URL}/api/v1/${shortCode}`
 
         return {
             shortUrl

@@ -9,7 +9,7 @@ export const ROUTES = {
     },
     USER: {
         LINK: '/url/short',
-        GET_LINK: '/url/:shortCode',
+        GET_LINK: '/:shortCode',
         GET_ALL: '/url'
     }
 }
