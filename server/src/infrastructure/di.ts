@@ -16,6 +16,7 @@ import { CounterRepository } from './repositories/Counter.repository';
 import { UserShortUrlUsecase } from '../application/usecases/url/user.shortUrl.usecase';
 import { UrlController } from '../presentation/controllers/url.controller';
 import { UserGetUrlUsecase } from '../application/usecases/url/user.getUrl.usecase';
+import { UserGetAllUrlUsecase } from '../application/usecases/url/user.getAllUrl.usecase';
 
 //repository
 const iUserRepository = new UserRepository()
@@ -71,6 +72,10 @@ const iUserShortUrl = new UserShortUrlUsecase (
 const iUserGetUrl = new UserGetUrlUsecase (
     iUrlRepository
 )
+const iUserGetAllLinks = new UserGetAllUrlUsecase(
+    iUserRepository,
+    iUrlRepository
+)
 
 
 //controller
@@ -84,4 +89,5 @@ export const iAuthController = new AuthController (
 export const iUrlController = new UrlController (
     iUserShortUrl,
     iUserGetUrl,
+    iUserGetAllLinks
 )

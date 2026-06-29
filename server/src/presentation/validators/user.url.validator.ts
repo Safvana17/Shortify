@@ -9,3 +9,9 @@ export const UrlParamsSchema = z.object({
 })
 
 export type UrlParams = z.infer<typeof UrlParamsSchema>
+
+export const UrlQuerySchema = z.object({
+    page: z.coerce.number().default(1),
+    limit: z.coerce.number().default(10)
+})
+export type UrlQuery = z.infer<typeof UrlQuerySchema>

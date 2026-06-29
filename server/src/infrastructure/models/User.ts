@@ -7,6 +7,8 @@ export interface IUser extends Document {
     password: string
     isVerified: boolean
     refreshToken: string[]
+    createdAt: Date
+    updatedAt: Date
 }
 
 const userSchema: Schema<IUser> = new Schema({

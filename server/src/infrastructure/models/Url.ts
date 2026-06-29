@@ -6,6 +6,8 @@ export interface IUrl extends Document {
     originalUrl: string
     shortCode: string
     clicks: number
+    createdAt: Date
+    updatedAt: Date
 }
 
 const urlSchema: Schema<IUrl> = new Schema({
