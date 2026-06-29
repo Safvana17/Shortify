@@ -17,6 +17,7 @@ import { UserShortUrlUsecase } from '../application/usecases/url/user.shortUrl.u
 import { UrlController } from '../presentation/controllers/url.controller';
 import { UserGetUrlUsecase } from '../application/usecases/url/user.getUrl.usecase';
 import { UserGetAllUrlUsecase } from '../application/usecases/url/user.getAllUrl.usecase';
+import { UserLogout } from '../application/usecases/auth/user.logout.usecase';
 
 //repository
 const iUserRepository = new UserRepository()
@@ -61,6 +62,11 @@ const iUserRefresh = new UserRefreshTokenUsecase (
     iTokenService,
     iHashService
 )
+const iUserLogout = new UserLogout (
+    iUserRepository,
+    iHashService,
+    iTokenService
+)
 
 
 //url
@@ -84,7 +90,8 @@ export const iAuthController = new AuthController (
     iUserVerifyOtp,
     iUserResendOtp,
     iUserLogin,
-    iUserRefresh
+    iUserRefresh,
+    iUserLogout
 )
 export const iUrlController = new UrlController (
     iUserShortUrl,

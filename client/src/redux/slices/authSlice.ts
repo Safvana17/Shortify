@@ -110,6 +110,24 @@ void,
     }
 })
 
+export const logout = createAsyncThunk<
+void,
+void,
+{rejectValue: string}
+>('user/logout', async(_, {rejectWithValue}) => {
+    try {
+
+        const response = await api.post(API_ROUTES.AUTH.LOGOUT)
+        if(!response.data.success){
+            return rejectWithValue("Invalid response")
+        }
+        return 
+
+    } catch (error) {
+        const err = error as AxiosError<{message: string}>
+        return rejectWithValue(err.response?.data.message || 'User logout failed')
+    }
+})
 
 const authSlice = createSlice({
     name: 'AuthSlice',
@@ -178,6 +196,19 @@ const authSlice = createSlice({
             state.user = null
             state.isAuthenticated = false
             state.error = action.payload || 'User login failed'
+          })
+          .addCase(logout.pending, (state) => {
+            state.loading = true
+          })
+          .addCase(logout.fulfilled, (state) => {
+            state.loading = false
+            state.accessToken = null 
+            state.user = null
+            state.isAuthenticated = false
+          })
+          .addCase(logout.rejected, (state, action) => {
+            state.loading = false
+            state.error = action.payload || 'User logout failed'
           })
     }
 })

@@ -24,6 +24,13 @@ export class UserRepository extends BaseRepository<UserEntity, IUser> implements
         )
     }
 
+    async revokeRefreshToken(hashedToken: string): Promise<void> {
+        await this._model.findOneAndUpdate(
+            { refreshToken: hashedToken },
+            { $pull: { refreshToken: hashedToken } }
+        )
+    }
+
     protected mapToEntity(doc: IUser): UserEntity {
         return UserMapper.mapToEntity(doc)
     }

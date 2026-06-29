@@ -9,6 +9,7 @@ import { IUserResendOtpUsecase } from "../../application/interfaces/auth/IUser.r
 import { IUserLoginUsecase } from "../../application/interfaces/auth/IUser.login.usecase";
 import { env } from "../../infrastructure/config/env.config";
 import { IUserRefreshTokenUsecase } from "../../application/interfaces/auth/IUser.refreshToken.usecase";
+import { IUserLogoutUsecase } from "../../application/interfaces/auth/IUser.logout.usecase";
 export class AuthController {
     constructor (
         private _userRegisterUsecase: IUserRegisterUsecase,
@@ -16,6 +17,7 @@ export class AuthController {
         private _userResendOtpUsecase: IUserResendOtpUsecase,
         private _userLoginUsecase: IUserLoginUsecase,
         private _userRefreshTokenUsecase: IUserRefreshTokenUsecase,
+        private _userLogoutUsecase: IUserLogoutUsecase,
     ) {}
 
     register = asyncHandler( async (req: Request, res: Response) => {
@@ -61,5 +63,19 @@ export class AuthController {
         })
 
         return sendSuccess(res, statusCode.OK, '', {user: data.user, accessToken: data.accessToken})
+    })
+
+    logout = asyncHandler( async (req: Request, res: Response) => {
+        const accessToken = req.headers.authorization?.split(' ')[1]
+        const refreshToken = req.cookies.refreshToken
+        await this._userLogoutUsecase.execute(refreshToken, accessToken!)
+        res.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none',
+            path: '/'
+        })
+        console.log('User logged out')
+        return sendSuccess(res, statusCode.OK, '')
     })
 }
