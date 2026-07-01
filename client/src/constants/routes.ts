@@ -6,6 +6,7 @@ export const ROUTES = {
         VERIFY_OTP: '/verify-otp',
     },
     USER: {
-        DASHBOARD: '/user/dashboard'
+        DASHBOARD: '/user/dashboard',
+        URL_REDIRECT: '/:shortCode'
     }
 }

@@ -17,7 +17,8 @@ const urlSchema: Schema<IUrl> = new Schema({
     },
     shortCode: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     userId: {
         type: Types.ObjectId,

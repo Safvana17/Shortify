@@ -12,6 +12,7 @@ import PrivateRoute from '../components/PrivateRoute'
 import { useDispatch } from 'react-redux'
 import type { AppDispatch } from '../redux/store'
 import { checkAuth } from '../redux/slices/authSlice'
+import UrlRedirect from '../presentation/pages/user/UrlRedirect'
 
 const App: React.FC = () => {
 
@@ -35,6 +36,7 @@ const App: React.FC = () => {
           <Route path={ROUTES.PUBLIC.LOGIN} element={ <PublicRoute><Login /></PublicRoute> } />
           <Route path={ROUTES.PUBLIC.VERIFY_OTP} element={<PublicRoute><VerifyOtp /></PublicRoute>} />
           <Route path={ROUTES.USER.DASHBOARD} element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+          <Route path={ROUTES.USER.URL_REDIRECT} element={<UrlRedirect />} />
        </Routes>
       </Suspense>
     </BrowserRouter>

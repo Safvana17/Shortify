@@ -24,8 +24,7 @@ export class UrlController {
     getLink = asyncHandler ( async (req: Request, res: Response) => {
         const { shortCode } = req.validatedParams as UrlParams
         const { link } = await this._getLinkUsecase.execute({shortCode})
-        console.log('from controller: ', link)
-        res.redirect(link)
+        return sendSuccess(res, statusCode.OK, '', link)
     })
 
     getAllLinks = asyncHandler ( async (req: Request, res: Response) => {

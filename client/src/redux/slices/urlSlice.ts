@@ -59,7 +59,26 @@ GetAllLinksResponse,
         if(!response.data.success){
             return rejectWithValue("Invalid response")
         }
-console.log('response: ', response.data.data)
+        console.log('response: ', response.data.data)
+        return response.data.data
+        
+    } catch (error) {
+        const err = error as AxiosError<{message: string}>
+        return rejectWithValue(err.response?.data.message || 'Failed to get all urls')
+    }
+})
+
+export const getLink = createAsyncThunk <
+string,
+{shortCode: string},
+{rejectValue: string}
+>('url/getLink', async({shortCode}, { rejectWithValue}) => {
+    try {
+        const response = await api.get(API_ROUTES.USER.LINK.GET_LINK(shortCode))
+        if(!response.data.success){
+            return rejectWithValue("Invalid response")
+        }
+        console.log('response: ', response.data.data)
         return response.data.data
         
     } catch (error) {

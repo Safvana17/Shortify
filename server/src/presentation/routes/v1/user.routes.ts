@@ -9,5 +9,5 @@ const router = Express.Router()
 
 router.post(ROUTES.USER.LINK, authHandler(iTokenService), validate(shortUrlSchema, 'body'), iUrlController.shortUrl)
 router.get(ROUTES.USER.GET_ALL, authHandler(iTokenService), validate(UrlQuerySchema, 'query'), iUrlController.getAllLinks)
-// router.get(ROUTES.USER.LINK, validate(UrlParamsSchema, 'params'), iUrlController.getLink)
+router.get(ROUTES.USER.GET_LINK, validate(UrlParamsSchema, 'params'), iUrlController.getLink)
 export default router
