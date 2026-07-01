@@ -12,17 +12,16 @@ import { UserLoginUsecase } from '../application/usecases/auth/user.login.usecas
 import { TokenService } from './services/token.service';
 import { UserRefreshTokenUsecase } from '../application/usecases/auth/user.refreshToken.usecase';
 import { UrlRepository } from './repositories/Url.repository';
-import { CounterRepository } from './repositories/Counter.repository';
 import { UserShortUrlUsecase } from '../application/usecases/url/user.shortUrl.usecase';
 import { UrlController } from '../presentation/controllers/url.controller';
 import { UserGetUrlUsecase } from '../application/usecases/url/user.getUrl.usecase';
 import { UserGetAllUrlUsecase } from '../application/usecases/url/user.getAllUrl.usecase';
 import { UserLogout } from '../application/usecases/auth/user.logout.usecase';
+import { UrlService } from './services/usrl.service';
 
 //repository
 const iUserRepository = new UserRepository()
 const iUrlRepository = new UrlRepository()
-const iCounterRepository = new CounterRepository()
 
 
 //service
@@ -31,6 +30,7 @@ const iOtpService = new OtpService()
 const iOtpStoreService = new OtpStoreService(redisClient)
 const iMailService = new MailService()
 export const iTokenService = new TokenService()
+const iUrlService = new UrlService()
 
 
 //usecases
@@ -73,7 +73,7 @@ const iUserLogout = new UserLogout (
 const iUserShortUrl = new UserShortUrlUsecase (
     iUrlRepository,
     iUserRepository,
-    iCounterRepository
+    iUrlService
 )
 const iUserGetUrl = new UserGetUrlUsecase (
     iUrlRepository

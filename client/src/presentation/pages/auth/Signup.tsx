@@ -65,19 +65,23 @@ return (
                 Enter your details to get started with Shortify
             </p>
             <div className="mt-8 space-y-5">
+            
                 <input
+                    value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
                     className="w-full border-b p-3 outline-none"
                     placeholder="Name"
                 />
                 {error.name && <p className='text-[#FBBEBE] text-xs mt-1'>{error.name}</p>}
                 <input
+                    value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
                     className="w-full border-b p-3 outline-none"
                     placeholder="Email"
                 />
                 {error.email && <p className='text-[#FBBEBE] text-xs mt-1'>{error.email}</p>}
                 <input
+                    value={formData.password}
                     onChange={(e) => setFormData({...formData, password: e.target.value})}
                     type="password"
                     className="w-full border-b p-3 outline-none"
@@ -85,6 +89,7 @@ return (
                 />
                 {error.password && <p className='text-[#FBBEBE] text-xs mt-1'>{error.password}</p>}
                 <input
+                    value={formData.confirmPassword}
                     onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
                     type="password"
                     className="w-full border-b p-3 outline-none"

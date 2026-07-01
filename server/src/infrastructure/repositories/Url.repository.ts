@@ -44,7 +44,7 @@ export class UrlRepository extends BaseRepository<UrlEntity, IUrl> implements IU
         return {
             data: documents.map((d) =>({
                 id: d._id.toString(),
-                shortLink: `${env.BACKEND_URL}/api/v1/${d.shortCode}`,
+                shortLink: `${env.BASE_URL}/${d.shortCode}`,
                 originalLink: d.originalUrl,
                 clicks: d.clicks,
                 createdOn: d.createdAt.toISOString()
