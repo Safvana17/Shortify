@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon --watch src --ext ts --exec ts-node src/presentation/server.ts",
     "build": "tsc",
-    "start": "node dist/presentation/server.ts",
+    "start": "node dist/presentation/server.js",
     "lint": "eslint src"
   },
   "keywords": [],
