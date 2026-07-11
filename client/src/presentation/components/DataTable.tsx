@@ -58,7 +58,7 @@ const DataTable =  <T extends {id: string | number }>({
             data.map((item, rowIndex) => (
               <tr key={item.id || rowIndex} className="hover:bg-gray-50/50 transition-colors group">
                 {columns.map((col, colIdx) => (
-                  <td key={colIdx} className="px-6 py-4 text-sm text-gray-600 font-medium">
+                  <td key={colIdx} className="px-2 py-2 text-xs text-gray-600 font-medium">
                     {col.render ? col.render(item[col.key], item) : String(item[col.key])}
                   </td>
                 ))}
