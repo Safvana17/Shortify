@@ -22,7 +22,7 @@ const Dashboard: React.FC = () => {
     }
 return (
     <div className="min-h-screen bg-gray-50">
-        <UserHeader userName={user?.name ?? 'User'} onLogout={()=>console.log("logout")} />
+        <UserHeader userName={user?.name ?? 'User'} />
         <div className="flex">
             <UserSidebar activePage={activePage} setActivePage={setActivePage} />
             <main className="flex-1 p-10">

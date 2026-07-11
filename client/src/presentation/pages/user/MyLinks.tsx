@@ -39,7 +39,7 @@ const MyLinks: React.FC = () => {
         {header: 'Short Url', key: 'shortLink', render: (val) => <span className='font-bold text-gray-600'>{val}</span>},
         {header: 'Original Link', key: 'originalLink', render: (val) => <span className='font-bold text-gray-600'>{val}</span>},
         {header: 'Created On', key: 'createdOn', render: (val) => <span className='font-bold text-gray-800'>{val}</span>},
-        {header: 'Actions', key: 'id', render: (id, url) => (
+        {header: 'Actions', key: 'id', render: (_, url) => (
             <div className="flex items-center gap-1 sm:gap-2">
                 <Button
                     type="button"
@@ -56,13 +56,6 @@ const MyLinks: React.FC = () => {
             </div>
         )}
     ]
-
-    // const handlePageChange = (
-    //     _event: unknown,
-    //     newPage:number
-    // )=>{
-    //     setPage(newPage);
-    // }
 
 return (
         <DataTable

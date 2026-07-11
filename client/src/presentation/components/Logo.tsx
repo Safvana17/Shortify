@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "lucide-react";
 
-const Logo = () => {
+const Logo: React.FC = () => {
   return (
     <div className="flex items-center gap-3">
       <div className="w-12 h-12 rounded-xl 
