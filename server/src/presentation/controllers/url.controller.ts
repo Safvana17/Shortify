@@ -23,6 +23,7 @@ export class UrlController {
 
     getLink = asyncHandler ( async (req: Request, res: Response) => {
         const { shortCode } = req.validatedParams as UrlParams
+        console.log("Redirect called:", req.params.shortCode);
         const { link } = await this._getLinkUsecase.execute({shortCode})
         return sendSuccess(res, statusCode.OK, '', link)
     })

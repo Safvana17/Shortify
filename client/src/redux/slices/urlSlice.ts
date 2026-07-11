@@ -59,7 +59,7 @@ GetAllLinksResponse,
         if(!response.data.success){
             return rejectWithValue("Invalid response")
         }
-        console.log('response: ', response.data.data)
+        // console.log('response: ', response.data.data)
         return response.data.data
         
     } catch (error) {
@@ -74,11 +74,12 @@ string,
 {rejectValue: string}
 >('url/getLink', async({shortCode}, { rejectWithValue}) => {
     try {
+        // console.log("getLink thunk started");
         const response = await api.get(API_ROUTES.USER.LINK.GET_LINK(shortCode))
         if(!response.data.success){
             return rejectWithValue("Invalid response")
         }
-        console.log('response: ', response.data.data)
+        // console.log('response: ', response.data.data)
         return response.data.data
         
     } catch (error) {

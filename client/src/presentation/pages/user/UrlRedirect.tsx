@@ -15,15 +15,22 @@ const UrlRedirect: React.FC = () => {
             console.log('No short code')
             return
         }
+        let cancelled = false
         const resolve = async() => {
             const result = await dispatch(getLink({shortCode}))
+            if(cancelled) return
             if(getLink.fulfilled.match(result)){
+                console.log('redirecting...')
                 window.location.replace(result.payload)
             }else{
                 toast.error("Invalid short url")
             }
         }
         resolve()
+
+        return () => {
+            cancelled = true
+        }
 
     }, [dispatch, shortCode])
   return (

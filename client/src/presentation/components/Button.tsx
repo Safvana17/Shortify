@@ -4,7 +4,7 @@ import React from 'react'
 interface ButtonProps {
     children: React.ReactNode;
     type: "button" | "submit" | "reset"
-    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void
+    onClick?: (e: React.MouseEvent<HTMLButtonElement> | string) => void
 }
 
 const Button: React.FC<ButtonProps> = ({ children, onClick, type= "button"}) => {

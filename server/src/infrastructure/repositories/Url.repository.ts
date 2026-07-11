@@ -46,8 +46,9 @@ export class UrlRepository extends BaseRepository<UrlEntity, IUrl> implements IU
                 id: d._id.toString(),
                 shortLink: `${env.BASE_URL}/${d.shortCode}`,
                 originalLink: d.originalUrl,
+                shortCode: d.shortCode,
                 clicks: d.clicks,
-                createdOn: d.createdAt.toISOString()
+                createdOn: d.createdAt.toLocaleString()
             })),
             totalCount,
             totalPages

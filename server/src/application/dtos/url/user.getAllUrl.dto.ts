@@ -8,6 +8,7 @@ export interface UrlDTO {
     id: string
     shortLink: string
     originalLink: string
+    shortCode: string
     createdOn: string
     clicks: number
 }

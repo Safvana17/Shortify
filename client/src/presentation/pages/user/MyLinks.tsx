@@ -2,27 +2,20 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import type { AppDispatch, RootState } from "../../../redux/store";
-import { getAllLink } from "../../../redux/slices/urlSlice";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-  Typography,
-  TablePagination,
-  Link
-} from "@mui/material";
+import { getAllLink, getLink } from "../../../redux/slices/urlSlice";
+import DataTable from "../../components/DataTable";
+import type { Column } from "../../../types/Table";
+import type { Url } from "../../../types/Url";
+import Button from "../../components/Button";
+import { useNavigate } from "react-router-dom";
 
 
 const MyLinks: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>()
+    const navigate = useNavigate()
     const [page, setPage] = useState(0)
     const limit = 10
-    const { urls, pagination } = useSelector((state: RootState) => state.url)
+    const { urls, pagination, loading } = useSelector((state: RootState) => state.url)
 
     useEffect(() => {
         dispatch( getAllLink({params:{page: page + 1,limit }}))
@@ -33,116 +26,58 @@ const MyLinks: React.FC = () => {
         toast.success("Copied")
     }
 
-    const handlePageChange = (
-        _event: unknown,
-        newPage:number
-    )=>{
-        setPage(newPage);
+    const handleViewLink = async(shortCode: string) => {
+        try {
+            await dispatch(getLink({shortCode})).unwrap()
+            navigate(`/${shortCode}`)
+        } catch (error) {
+            toast.error(typeof error === 'string' ? error : 'Failed to redirect url')
+        }
     }
 
+    const columns: Column<Url>[] =  [
+        {header: 'Short Url', key: 'shortLink', render: (val) => <span className='font-bold text-gray-600'>{val}</span>},
+        {header: 'Original Link', key: 'originalLink', render: (val) => <span className='font-bold text-gray-600'>{val}</span>},
+        {header: 'Created On', key: 'createdOn', render: (val) => <span className='font-bold text-gray-800'>{val}</span>},
+        {header: 'Actions', key: 'id', render: (id, url) => (
+            <div className="flex items-center gap-1 sm:gap-2">
+                <Button
+                    type="button"
+                    onClick={() =>copy(url.shortLink)}
+                >
+                    Copy
+                </Button>
+                <Button
+                    type="button"
+                    onClick={() =>handleViewLink(url.shortCode)}
+                >
+                    view
+                </Button>
+            </div>
+        )}
+    ]
+
+    // const handlePageChange = (
+    //     _event: unknown,
+    //     newPage:number
+    // )=>{
+    //     setPage(newPage);
+    // }
+
 return (
-    <Paper
-        sx={{
-            p:3,
-            borderRadius:3
-        }}
-    >
-        <Typography
-            variant="h5"
-            sx= {{
-                fontWeight:600,
-                mb:3
-            }}
+        <DataTable
+           columns={columns}
+           isLoading={loading}
+           data={urls}
+           emptyMessage="No Links Found"
+           pagination={{
+            currentPage:page,
+            totalPages: pagination.url.totalPages,
+            totalCount: pagination.url.totalCount,
+            onPageChange: (page) => setPage(page)
+           }}
         >
-            Your Links
-        </Typography>
-        <TableContainer>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        <TableCell>
-                            Short URL
-                        </TableCell>
-                        <TableCell>
-                            Original URL
-                        </TableCell>
-                        <TableCell>
-                            Clicks
-                        </TableCell>
-                        <TableCell>
-                            Created On
-                        </TableCell>
-                        <TableCell>
-                            Action
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                {urls.length === 0 ? (
-                        <TableRow>
-                            <TableCell
-                                colSpan={5}
-                                align="center"
-                            >
-                                No links found
-                            </TableCell>
-                        </TableRow>
-                    ) : (
-                    urls.map((link)=>(
-                        <TableRow
-                            key={link.id}
-                        >
-                            <TableCell>
-                                <Link
-                                    href={link.shortLink}
-                                    target="_blank"
-                                    underline="hover"
-                                >
-                                    {link.shortLink}
-                                </Link>
-                            </TableCell>
-                            <TableCell
-                                sx={{
-                                    maxWidth:300,
-                                    overflow:"hidden",
-                                    textOverflow:"ellipsis",
-                                    whiteSpace:"nowrap"
-                                }}
-                            >
-                                {link.originalLink}
-                            </TableCell>
-                            <TableCell>
-                                {link.clicks}
-                            </TableCell>
-                            <TableCell>
-                                {new Date(link.createdOn).toLocaleDateString()}
-                            </TableCell>
-                            <TableCell>
-                                <Button
-                                    variant="contained"
-                                    size="small"
-                                    onClick={()=>
-                                        copy(link.shortLink)
-                                    }
-                                >
-                                    Copy
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    ))
-                )}
-                </TableBody>
-            </Table>
-        </TableContainer>
-        <TablePagination
-            component="div"
-            count={pagination.url.totalCount}
-            page={page}
-            rowsPerPage={limit}
-            rowsPerPageOptions={[10]}
-            onPageChange={handlePageChange}
-        />
-    </Paper>
+        </DataTable>
 )}
 
 
