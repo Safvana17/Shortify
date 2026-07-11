@@ -9,6 +9,7 @@ interface PublicRouteProps {
 
 const PublicRoute: React.FC<PublicRouteProps> = ({children}) => {
     const { user, isAuthenticated, loading } = useSelector((state: RootState) => state.auth)
+    console.log("PublicRoute loading:", loading);
     
     if(loading){
         return(

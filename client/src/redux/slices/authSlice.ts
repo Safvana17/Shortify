@@ -139,9 +139,9 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-          .addCase(registerUser.pending, (state) => {
-            state.loading = true
-          })
+        //   .addCase(registerUser.pending, (state) => {
+        //     state.loading = true
+        //   })
           .addCase(registerUser.fulfilled, (state) => {
             state.loading = false
           })
@@ -169,9 +169,9 @@ const authSlice = createSlice({
             state.loading = false
             state.error = action.payload || 'Failed to resend otp'
           })
-          .addCase(login.pending, (state) => {
-            state.loading = true
-          })
+        //   .addCase(login.pending, (state) => {
+        //     state.loading = true
+        //   })
           .addCase(login.fulfilled, (state, action) => {
             state.loading = false
             state.user = action.payload.user

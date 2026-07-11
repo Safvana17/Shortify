@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Logo from "../../components/Logo"
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../../constants/routes";
 import { userRegisterSchema } from "../../../lib/validation/authValidator";
@@ -8,6 +7,9 @@ import { useDispatch } from "react-redux";
 import type { AppDispatch } from "../../../redux/store";
 import { registerUser } from "../../../redux/slices/authSlice";
 import toast from "react-hot-toast";
+import AuthLayout from "../../components/AuthLayout";
+import Input from "../../components/Input";
+import Button from "../../components/Button";
 
 const Signup: React.FC = () => {
     const navigate = useNavigate()
@@ -53,67 +55,48 @@ const Signup: React.FC = () => {
         }
     }
 return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 flex flex-col items-center">
-        <div className="mt-10">
-            <Logo/>
-        </div>
-        <div className="mt-10 w-[550px] bg-white rounded-2xl shadow-xl p-8">
-            <h1 className="text-3xl text-center font-semibold">
-                Create an account
-            </h1>
-            <p className="text-center text-gray-500 mt-3">
-                Enter your details to get started with Shortify
+    <AuthLayout title="Create an Account" subtitle="Enter your details to get started with shortify">
+        <form onSubmit={handleRegister} className="mt-8 space-y-5">
+            <Input 
+                type="text"
+                placeholder="Name"
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                error={error.name}
+            />
+            <Input 
+                type="text"
+                placeholder="Email"
+                value={formData.email}
+                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                error={error.email}
+            />
+            <Input 
+                type="password"
+                placeholder="password"
+                value={formData.password}
+                onChange={(e) => setFormData({...formData, password: e.target.value})}
+                error={error.password}
+                showPasswordToggle
+            />
+            <Input 
+                type="password"
+                placeholder="Confirm password"
+                value={formData.confirmPassword}
+                onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
+                error={error.confirmPassword}
+                showPasswordToggle
+            />
+            <Button
+                type="submit"
+            >
+                Login
+            </Button>
+            <p className="text-center text-gray-600">
+                Already have an account? <span className="text-indigo-600 ml-1 cursor-pointer" onClick={() => navigate(ROUTES.PUBLIC.LOGIN)}>Login</span>
             </p>
-            <div className="mt-8 space-y-5">
-            
-                <input
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full border-b p-3 outline-none"
-                    placeholder="Name"
-                />
-                {error.name && <p className='text-[#FBBEBE] text-xs mt-1'>{error.name}</p>}
-                <input
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full border-b p-3 outline-none"
-                    placeholder="Email"
-                />
-                {error.email && <p className='text-[#FBBEBE] text-xs mt-1'>{error.email}</p>}
-                <input
-                    value={formData.password}
-                    onChange={(e) => setFormData({...formData, password: e.target.value})}
-                    type="password"
-                    className="w-full border-b p-3 outline-none"
-                    placeholder="Password"
-                />
-                {error.password && <p className='text-[#FBBEBE] text-xs mt-1'>{error.password}</p>}
-                <input
-                    value={formData.confirmPassword}
-                    onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-                    type="password"
-                    className="w-full border-b p-3 outline-none"
-                    placeholder="Confirm Password"
-                />
-                {error.confirmPassword && <p className='text-[#FBBEBE] text-xs mt-1'>{error.confirmPassword}</p>}
-                <button 
-                    className="cursor-pointer w-full py-3 rounded-lg text-white font-semibold bg-gradient-to-r from-indigo-500 to-purple-600"
-                    onClick={handleRegister}
-                >
-                    Create Account
-                </button>
-                <p className="text-center text-gray-600">
-                    Already have an account? <span className="text-indigo-600 ml-1 cursor-pointer" onClick={() => navigate(ROUTES.PUBLIC.LOGIN)}>Login</span>
-                </p>
-            </div>
-        </div>
-        <p 
-           className="mt-12 text-gray-600 cursor-pointer"
-           onClick={() => navigate(ROUTES.PUBLIC.HOME)}
-        >
-            ← Back to home
-        </p>
-    </div>
+        </form>
+    </AuthLayout>
 )}
 
 
